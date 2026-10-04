@@ -1,23 +1,24 @@
 ﻿namespace OOP_4
 {
-        #region Part1: Theoritical Questions
-        //Part1: Theoritical
-        //Question1:
-        //a) Method Overloading happens in the static polymorphism while Method Overriding happens in the dynamic polymorphism
-        //Method overloading is to have multiple methods with the same name but different parameters number or types if you want to overload a method in the child class you have to use the new keyword
-        //Method overriding is to have the parent class allow the child class to modify its method using virtual keyword and use override keyword in the child class to modify the method
-        //In main,Compiler choose the method dependent on the refernce type in the method overloading
-        //In main,Compiler choose the method dependent on the least dervied class type in the method overriding
-        //b)
-        //Question2:
-        //a)
-        //b)
-        #endregion
+    #region Part1: Theoritical Questions
+    //Part1: Theoritical
+    //Question1:
+    //a)Abstraction is the process of hiding all implementation details and showing only the essential features for the user 
+    //b)it manages system complexity by hiding low-level implementation details and exposing only essential features through clear interfaces
+    //Question2:
+    //a)Abstract class can have abstract and concrete methods while interface has only abstract methods
+    //Abstract class can have fields while interface cannot have fields
+    //Abstract class can have constructors while interface cannot have constructors
+    //Abstract class is used when there is a common base class with shared implementation while interface is used to define a contract that multiple classes can implement
+    //A class can inherit from only one abstract class while a class can implement multiple interfaces
+    //b)when you need to define a common behavior or contract for unrelated classes or when a class must inherit from multiple sources
+    //c)a class cannot inherit from multiple abstract classes, but it can implement multiple interfaces.
+    #endregion
 
-        #region Part2: Practical Questions
+    #region Part2: Practical Questions
 
-        #region DeliveryAdress Class
-        public struct DeliveryAddress
+    #region DeliveryAdress Class
+    public struct DeliveryAddress
         {
             string City;
             string Street;
