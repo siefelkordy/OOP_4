@@ -1,4 +1,6 @@
-﻿namespace OOP_4
+﻿using OOP_4;
+
+namespace OOP_4
 {
     #region Part1: Theoritical Questions
     //Part1: Theoritical
@@ -46,7 +48,7 @@
 
         #region Shipment Class (Parent Class)
         //Shipment Class(Parent Class)
-        public class Shipment
+        public abstract class Shipment
         {
             string trackingCode;
             string description;
@@ -142,13 +144,9 @@
                     destination = value;
                 }
             }
-            public virtual decimal EstimatedCost
-            {
-                get
-                {
-                    return deliveryFee + (weight * 5);
-                }
-            }
+            //6.Estimated Cost Property
+            public abstract decimal EstimatedCost();
+            
 
             //////////////Constructors
             //1st Constructor
@@ -192,11 +190,9 @@
                     throw new ArgumentException("Delivery fee must be a positive number.");
                 }
             }
-            //Print Shipment Method
-            public virtual string PrintShipmentDetails()
-            {
-                return $"Tracking Code: {TrackingCode}\nDescription: {Description}\nWeight: {Weight}kg\nDelivery Fee: {deliveryFee}\nEstimated Cost: {EstimatedCost}";
-            }
+        //Print Shipment Method
+        public abstract string PrintShipmentDetails();
+           
         }
         #endregion
 
@@ -208,10 +204,18 @@
             public StandardShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee) : base(TrackingCode, Description, Weight, DeliveryFee)
             {
             }
-            //Print Shipment Override method
-            public override string PrintShipmentDetails()
+        //Override Estimated cost property
+        public override decimal EstimatedCost()
             {
-                return "Standard Shipment\n\n" + base.PrintShipmentDetails();
+                return DeliveryFee+(Weight*5);
+            }
+
+        //Print Shipment Override method
+        public override string PrintShipmentDetails()
+            {
+                return "Standard Shipment\n\n" + $"Tracking Code: {TrackingCode}\nDescription: {Description}\nWeight: {Weight}kg\nDelivery Fee: {DeliveryFee}\nEstimated Cost: {EstimatedCost}";
+            }
+          
             }
         }
         #endregion
@@ -237,18 +241,14 @@
                 }
             }
             //Override Estimated cost property
-            public override decimal EstimatedCost
+            public override decimal EstimatedCost()
             {
-                get
-                {
-                    return base.EstimatedCost + extrafee;
-                }
-
+                    return DeliveryFee + (Weight * 5) + extrafee;
             }
             //Print Shipment Override method
             public override string PrintShipmentDetails()
             {
-                return "Express Shipment\n\n" + base.PrintShipmentDetails() + $"\nExtra Fee: {extrafee}";
+                return "Express Shipment\n\n" + $"Tracking Code: {TrackingCode}\nDescription: {Description}\nWeight: {Weight}kg\nDelivery Fee: {DeliveryFee}\nEstimated Cost: {EstimatedCost}" + $"\nExtra Fee: {extrafee}";
             }
             public ExpressShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee, decimal extrafee) : base(TrackingCode, Description, Weight, DeliveryFee)
             {
@@ -300,18 +300,17 @@
                 }
             }
             //Override Estimated cost property
-            public override decimal EstimatedCost
+            public override decimal EstimatedCost()
             {
-                get
-                {
-                    return base.EstimatedCost + customsfee;
-                }
+                
+                    return DeliveryFee + (Weight * 5) + customsfee;
+               
 
             }
             //Print Shipment Override method
             public override string PrintShipmentDetails()
             {
-                return "International Shipment\n\n" + base.PrintShipmentDetails() + $"\nCustoms Fee: {customsfee}" + $"\nDestination: {destinationcountry}";
+                return "International Shipment\n\n" + $"Tracking Code: {TrackingCode}\nDescription: {Description}\nWeight: {Weight}kg\nDelivery Fee: {DeliveryFee}\nEstimated Cost: {EstimatedCost}" + $"\nCustoms Fee: {customsfee}" + $"\nDestination: {destinationcountry}";
             }
             //Constructor chaining
             public InternationalShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee, decimal customsfee, string destinationcountry) : base(TrackingCode, Description, Weight, DeliveryFee)
@@ -641,7 +640,7 @@
         #endregion
 
 
-    }
+   
 
 
 
