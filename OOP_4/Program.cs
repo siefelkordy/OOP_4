@@ -276,7 +276,7 @@
     }
     #endregion
 
-        #region International Shipment Class(parent class)
+        #region International Shipment Class(Child Class) 
     //International Shipment Class(parent class)
     public class InternationalShipment : Shipment, ITrackable, IInsurable
     {
@@ -436,11 +436,49 @@
                     }
                 }
             }
+        //PrintShipment(ITrackable shipment)
+        public void PrintShipment(ITrackable shipment)
+        {
+            if (shipment != null)
+            {
+                Console.WriteLine(shipment.GetTrackingStatus());
+            }
         }
-        #endregion
+        //PrintShipment(IInsurable shipment)
+        public void PrintShipment(IInsurable shipment)
+        {
+            if (shipment != null)
+            {
+                Console.WriteLine($"Insurance\n {shipment.GetType().Name}: {shipment.CalculateInsurance()}");
+            }
+        }
+        public void PrintTrackingStatuses()
+        {
 
-        #region Delivery Helper Class
-        public static class DeliveryHelper
+            foreach(ITrackable t in shipment)
+            {
+                if (t != null)
+                {
+                    t.GetTrackingStatus();
+                }
+            }
+        }
+        public void PrintInsuranceCosts()
+        {
+            foreach (IInsurable i in shipment)
+            {
+                if (i != null)
+                {
+                    i.CalculateInsurance();
+                }
+            }
+        }
+
+    }
+    #endregion
+
+    #region Delivery Helper Class
+    public static class DeliveryHelper
         {
             public static void PrintShipmentDetails(Shipment shipment)
             {
