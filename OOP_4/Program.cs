@@ -201,7 +201,7 @@
 
         #region Standard Shipment Class(Child Class)
         //Standard Shipment Class(Child Class)
-        public class StandardShipment : Shipment
+        public class StandardShipment : Shipment, ITrackable, IInsurable
         {
             //Chaining Constructor
             public StandardShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee) : base(TrackingCode, Description, Weight, DeliveryFee)
@@ -212,13 +212,23 @@
             {
                 return "Standard Shipment\n\n" + base.PrintShipmentDetails();
             }
+        //ITrackable Implementation
+        public string GetTrackingStatus()
+        {
+            return $"Tracking Status\nShipment {TrackingCode} is Ready.\n";
         }
-        #endregion
+        //IInsurable Implementation
+        public decimal CalculateInsurance()
+        {
+            return EstimatedCost * 0.05m;
+        }
+    }
+    #endregion
 
         #region Express Shipment Class(Child Class)
-        //Express Shipment Class(Child Class)
-        public class ExpressShipment : Shipment
-        {
+    //Express Shipment Class(Child Class)
+    public class ExpressShipment : Shipment, ITrackable, IInsurable
+    {
             decimal extrafee;
             //ExtraFee Property
             public decimal ExtraFee
@@ -253,13 +263,23 @@
             {
                 this.ExtraFee = extrafee;
             }
-        }
-        #endregion
+            //ITrackable Implementation
+            public string GetTrackingStatus()
+            {
+            return $"Shipment {TrackingCode} is Out for Delivery.\n";
+            }
+            //IInsurable Implementation
+           public decimal CalculateInsurance()
+           {
+            return EstimatedCost * 0.08m;
+           }
+    }
+    #endregion
 
         #region International Shipment Class(parent class)
-        //International Shipment Class(parent class)
-        public class InternationalShipment : Shipment
-        {
+    //International Shipment Class(parent class)
+    public class InternationalShipment : Shipment, ITrackable, IInsurable
+    {
             string destinationcountry;
             decimal customsfee;
             //Destination Country property
@@ -318,7 +338,17 @@
                 this.CustomsFee = customsfee;
                 this.DestinationCountry = destinationcountry;
             }
+        //ITrackable Implementation
+        public string GetTrackingStatus()
+        {
+            return $"Shipment {TrackingCode} has been delivered.";
         }
+        //IInsurable Implementation
+        public decimal CalculateInsurance()
+        {
+            return EstimatedCost * 0.12m;
+        }
+    }
         #endregion
 
         #region Delivery Center Class
