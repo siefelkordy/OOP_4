@@ -194,7 +194,7 @@
             //Print Shipment Method
             public virtual string PrintShipmentDetails()
             {
-                return $"Tracking Code: {TrackingCode}\nDescription: {Description}\nWeight: {Weight}kg\nDelivery Fee: {deliveryFee}\nEstimated Cost: {EstimatedCost}";
+                return $"Tracking Code: {TrackingCode}\n";
             }
         }
         #endregion
@@ -210,7 +210,7 @@
             //Print Shipment Override method
             public override string PrintShipmentDetails()
             {
-                return "Standard Shipment\n\n" + base.PrintShipmentDetails();
+                return "Standard Shipment\n\n" + base.PrintShipmentDetails() +$"Description: {Description}\n"+$"Estimated Cost: {EstimatedCost}\n";
             }
         //ITrackable Implementation
         public string GetTrackingStatus()
@@ -222,13 +222,13 @@
         {
             return EstimatedCost * 0.05m;
         }
-    }
-    #endregion
+      }
+       #endregion
 
         #region Express Shipment Class(Child Class)
-    //Express Shipment Class(Child Class)
-    public class ExpressShipment : Shipment, ITrackable, IInsurable
-    {
+      //Express Shipment Class(Child Class)
+      public class ExpressShipment : Shipment, ITrackable, IInsurable
+      {
             decimal extrafee;
             //ExtraFee Property
             public decimal ExtraFee
@@ -257,7 +257,7 @@
             //Print Shipment Override method
             public override string PrintShipmentDetails()
             {
-                return "Express Shipment\n\n" + base.PrintShipmentDetails() + $"\nExtra Fee: {extrafee}";
+                return "Express Shipment\n\n" + base.PrintShipmentDetails() + $"Extra Fee: {extrafee}\n" + $"Estimated Cost: {EstimatedCost}";
             }
             public ExpressShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee, decimal extrafee) : base(TrackingCode, Description, Weight, DeliveryFee)
             {
@@ -330,7 +330,7 @@
             //Print Shipment Override method
             public override string PrintShipmentDetails()
             {
-                return "International Shipment\n\n" + base.PrintShipmentDetails() + $"\nCustoms Fee: {customsfee}" + $"\nDestination: {destinationcountry}";
+                return "International Shipment\n\n" + base.PrintShipmentDetails()  + $"Destination: {destinationcountry}\n"+ $"Estimated Cost: {EstimatedCost}";
             }
             //Constructor chaining
             public InternationalShipment(string TrackingCode, string Description, int Weight, decimal DeliveryFee, decimal customsfee, string destinationcountry) : base(TrackingCode, Description, Weight, DeliveryFee)
@@ -477,7 +477,7 @@
     }
     #endregion
 
-    #region Delivery Helper Class
+        #region Delivery Helper Class
     public static class DeliveryHelper
         {
             public static void PrintShipmentDetails(Shipment shipment)
@@ -515,200 +515,184 @@
         {
             static void Main(string[] args)
             {
-                //a.Create a Driver
-                Console.WriteLine("Enter Driver Name:");
-                string driverName = Console.ReadLine();
+                ////a.Create a Driver
+                //Console.WriteLine("Enter Driver Name:");
+                //string driverName = Console.ReadLine();
 
-                Driver driver = new Driver(driverName);
-                // b. Create a DeliveryCenter
-                Console.WriteLine("Enter Delivery Center Name:");
-                string centerName = Console.ReadLine();
+                //Driver driver = new Driver(driverName);
+                //// b. Create a DeliveryCenter
+                //Console.WriteLine("Enter Delivery Center Name:");
+                //string centerName = Console.ReadLine();
 
-                DeliveryCenter center = new DeliveryCenter();
-                center.CenterName = centerName;
+                //DeliveryCenter center = new DeliveryCenter();
+                //center.CenterName = centerName;
 
-                //c.Assign driver to delivery center
-                center.AssignedDriver = driver.name;
-                // d. Create Standard Shipment
-                Console.WriteLine("\n--- Standard Shipment ---");
-
-                Console.WriteLine("Tracking Code:");
-                string standardTrackingCode = Console.ReadLine();
-
-                Console.WriteLine("Description:");
-                string standardDescription = Console.ReadLine();
-
-                Console.WriteLine("Weight:");
-                int standardWeight = int.Parse(Console.ReadLine());
-
-                Console.WriteLine("Delivery Fee:");
-                decimal standardDeliveryFee = decimal.Parse(Console.ReadLine());
-
+                ////c.Assign driver to delivery center
+                //center.AssignedDriver = driver.name;
+                // a. Create Standard Shipment
                 StandardShipment standardShipment =
                     new StandardShipment(
-                        standardTrackingCode,
-                        standardDescription,
-                        standardWeight,
-                        standardDeliveryFee
+                        "SH001",
+                        "Laptop",
+                        2,
+                        100.0m
                     );
 
-
-                // e. Create Express Shipment
-                Console.WriteLine("\n--- Express Shipment ---");
-
-                Console.WriteLine("Tracking Code:");
-                string expressTrackingCode = Console.ReadLine();
-
-                Console.WriteLine("Description:");
-                string expressDescription = Console.ReadLine();
-
-                Console.WriteLine("Weight:");
-                int expressWeight = int.Parse(Console.ReadLine());
-
-                Console.WriteLine("Delivery Fee:");
-                decimal expressDeliveryFee = decimal.Parse(Console.ReadLine());
-
-                Console.WriteLine("Extra Fee:");
-                decimal extraFee = decimal.Parse(Console.ReadLine());
-
-                ExpressShipment expressShipment =
+                // b. Create Express Shipment
+                 ExpressShipment expressShipment =
                     new ExpressShipment(
-                        expressTrackingCode,
-                        expressDescription,
-                        expressWeight,
-                        expressDeliveryFee,
-                        extraFee
+                      "SH002",
+                      "Laptop",
+                      2,
+                      100.0m,
+                      30.0m
                     );
-
-
-                // f. Create International Shipment
-                Console.WriteLine("\n--- International Shipment ---");
-
-                Console.WriteLine("Tracking Code:");
-                string internationalTrackingCode = Console.ReadLine();
-
-                Console.WriteLine("Description:");
-                string internationalDescription = Console.ReadLine();
-
-                Console.WriteLine("Weight:");
-                int internationalWeight = int.Parse(Console.ReadLine());
-
-                Console.WriteLine("Delivery Fee:");
-                decimal internationalDeliveryFee = decimal.Parse(Console.ReadLine());
-
-                Console.WriteLine("Destination Country:");
-                string destinationCountry = Console.ReadLine();
-
-                Console.WriteLine("Customs Fee:");
-                decimal customsFee = decimal.Parse(Console.ReadLine());
-
+                // c. Create International Shipment
                 InternationalShipment internationalShipment =
                     new InternationalShipment(
-                        internationalTrackingCode,
-                        internationalDescription,
-                        internationalWeight,
-                        internationalDeliveryFee,
-                        customsFee,
-                        destinationCountry
-
+                      "SH003",
+                      "Laptop",
+                       2,
+                       100.0m,
+                       30.0m,
+                      "Germany"
                     );
-
-
-                // g. Add shipments to Delivery Center
-                center.AddShipment(standardShipment);
-                center.AddShipment(expressShipment);
-                center.AddShipment(internationalShipment);
-
-
-                // h & i. Print all shipments
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine($"Delivery Center: {center.CenterName}");
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine($"\nDriver Name: {driver.name}");
-                Console.WriteLine("------------------------------------");
-                //center.PrintAllShipments();
-                for (int i = 0; i < 20; i++)
-                {
-                    if (center[i] != null)
-                    {
-                        DeliveryHelper.PrintShipmentDetails(center[i]);
-                        Console.WriteLine("------------------------------------");
-                    }
-                }
-                Console.WriteLine("Printing Using DeliveryHelper...\nStandard Shipment Printed Successfully.\nExpress Shipment Printed Successfully.\nInternational Shipment Printed Successfully.\n");
-                Console.WriteLine("------------------------------------");
-
-                //j. demonstrate both versions of update weight
-                int updatedWeight = 5;
-                standardShipment.UpdateDeilveryFee(20.5m);
-                Console.WriteLine("------------------------------------");
-                Console.WriteLine($"Original Weight : {expressShipment.Weight} KG");
-                expressShipment.Weight = updatedWeight;
-                expressShipment.UpdateDeilveryFee(50.0m, updatedWeight);
-                Console.WriteLine($"Updated Weight : {expressShipment.Weight} KG");
-                Console.WriteLine($"Updated Weight after Packing : {expressShipment.Weight + 0.5} KG");
-
-                //k. Build a Shipment[] holding mixed types and print all of them in a loop.
-                Shipment[] mixedShipments = new Shipment[]
+                           
+            // d. Add shipments to Delivery Center
+            DeliveryCenter center = new DeliveryCenter();
+            center.AddShipment(standardShipment);
+            center.AddShipment(expressShipment);
+            center.AddShipment(internationalShipment);
+            //e. Print all shiipment details
+            for (int i = 0; i < 20; i++)
             {
-            new StandardShipment("STD-101", "Textbooks", 3, 45.0m),
-            new ExpressShipment("EXP-202", "Smartphone", 1, 80.0m, 25.0m),
-            new InternationalShipment("INT-303", "Machine Parts", 12, 200.0m, 75.0m, "Canada")
-            };
-                Console.WriteLine("========== MIXED SHIPMENTS ==========");
-                foreach (Shipment s in mixedShipments)
+                if (center[i] != null)
                 {
-                    if (s != null)
-                    {
-                        Console.WriteLine(s.PrintShipmentDetails());
-                        Console.WriteLine("------------------------------------------");
-                    }
+                    DeliveryHelper.PrintShipmentDetails(center[i]);
+                    Console.WriteLine("------------------------------------");
                 }
-
-                //// 7. Search using the tracking-code indexer
-                //Console.WriteLine("\nEnter Tracking Code to Search:");
-                //string searchCode = Console.ReadLine();
-
-                //Shipment foundShipment = center[searchCode];
-
-                //if (foundShipment != null)
-                //{
-                //    Console.WriteLine("\nShipment Found:");
-                //    Console.WriteLine(foundShipment.PrintShipmentDetails());
-                //}
-                //else
-                //{
-                //    Console.WriteLine("No Shipment Found!!");
-                //}
-
-
-                //// 8. Remove shipment
-                //Console.WriteLine("\nEnter Tracking Code to Remove:");
-                //string removeCode = Console.ReadLine();
-
-                //bool removed = center.RemoveShipment(removeCode);
-
-                //if (removed)
-                //{
-                //    Console.WriteLine("Shipment Removed Successfully.");
-                //}
-                //else
-                //{
-                //    Console.WriteLine("Shipment Not Found.");
-                //}
-
-
-                //// 9. Print remaining shipments
-                //Console.WriteLine("\n========== REMAINING SHIPMENTS ==========");
-                //center.PrintAllShipments();
             }
+            //f. Print tracking status for each shipment
+            for (int i = 0; i < 20; i++)
+            {
+                if (center[i] != null)
+                {
+                    center.PrintShipment(center[i] as ITrackable);
+                   
+                }
+            }
+            //f. Print tracking status for each shipment
+            for (int i = 0; i < 20; i++)
+            {
+                if (center[i] != null)
+                {
+                    center.PrintShipment(center[i] as IInsurable);
+                   
+                }
+            }
+            ITrackable[] trackableShipments = new ITrackable[] { standardShipment, expressShipment, internationalShipment };
+            for(int i = 0; i < trackableShipments.Length; i++)
+            {
+                if (trackableShipments[i] != null)
+                {
+
+                    Console.WriteLine(trackableShipments[i].GetTrackingStatus());
+                }
+            }
+            IInsurable[] insurableShipments = new IInsurable[] { standardShipment, expressShipment, internationalShipment };
+            for (int i = 0; i < insurableShipments.Length; i++)
+            {
+                if (insurableShipments[i] != null)
+                {
+                    Console.WriteLine(insurableShipments[i].CalculateInsurance());
+                    
+                }
+            }
+
+
+
+            //// h & i. Print all shipments 
+            //Console.WriteLine("------------------------------------");
+            //Console.WriteLine($"Delivery Center: {center.CenterName}");
+            //Console.WriteLine("------------------------------------");
+            //Console.WriteLine($"\nDriver Name: {driver.name}");
+            //Console.WriteLine("------------------------------------");
+            //center.PrintAllShipments();
+
+            ////j. demonstrate both versions of update weight
+            //int updatedWeight = 5;
+            //standardShipment.UpdateDeilveryFee(20.5m);
+            //Console.WriteLine("------------------------------------");
+            //Console.WriteLine($"Original Weight : {expressShipment.Weight} KG");
+            //expressShipment.Weight = updatedWeight;
+            //expressShipment.UpdateDeilveryFee(50.0m, updatedWeight);
+            //Console.WriteLine($"Updated Weight : {expressShipment.Weight} KG");
+            //Console.WriteLine($"Updated Weight after Packing : {expressShipment.Weight + 0.5} KG");
+
+            //k. Build a Shipment[] holding mixed types and print all of them in a loop.
+            //    Shipment[] mixedShipments = new Shipment[]
+            //{
+            //new StandardShipment("STD-101", "Textbooks", 3, 45.0m),
+            //new ExpressShipment("EXP-202", "Smartphone", 1, 80.0m, 25.0m),
+            //new InternationalShipment("INT-303", "Machine Parts", 12, 200.0m, 75.0m, "Canada")
+            //};
+            //    Console.WriteLine("========== MIXED SHIPMENTS ==========");
+            //    foreach (Shipment s in mixedShipments)
+            //    {
+            //        if (s != null)
+            //        {
+            //            Console.WriteLine(s.PrintShipmentDetails());
+            //            Console.WriteLine("------------------------------------------");
+            //        }
+            //    }
+
+            //// 7. Search using the tracking-code indexer
+            //Console.WriteLine("\nEnter Tracking Code to Search:");
+            //string searchCode = Console.ReadLine();
+
+            //Shipment foundShipment = center[searchCode];
+
+            //if (foundShipment != null)
+            //{
+            //    Console.WriteLine("\nShipment Found:");
+            //    Console.WriteLine(foundShipment.PrintShipmentDetails());
+            //}
+            //else
+            //{
+            //    Console.WriteLine("No Shipment Found!!");
+            //}
+
+
+            //// 8. Remove shipment
+            //Console.WriteLine("\nEnter Tracking Code to Remove:");
+            //string removeCode = Console.ReadLine();
+
+            //bool removed = center.RemoveShipment(removeCode);
+
+            //if (removed)
+            //{
+            //    Console.WriteLine("Shipment Removed Successfully.");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Shipment Not Found.");
+            //}
+
+
+            //// 9. Print remaining shipments
+            //Console.WriteLine("\n========== REMAINING SHIPMENTS ==========");
+            //center.PrintAllShipments();
         }
+    }
         #endregion
 
         #endregion
 
 
     }
+
+
+
 
 
 
